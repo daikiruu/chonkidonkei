@@ -1,26 +1,63 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.scss";
+import React from 'react';
+import ReactDOM from "react-dom/client"; //New
+import { BrowserRouter, Routes, Route } from "react-router-dom"; //New
+import './App.scss';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
+import ErrorPage from './pages/ErrorPage';
 
-function App() {
-  const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
-
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading...?" : data}</p>
-        <p>Hmmm</p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route index element={<Home />} />
+          <Route path="error" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 
+
+
+
+
+
+
+
+
+// const routes = [
+//   {
+//     path: '/',
+//     element: <Home />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: 'home',
+//     element: <Home />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     path: 'error',
+//     element: <ErrorPage />,
+//     // errorElement: <ErrorPage />,
+//   },
+// ];
+
+// const router = createHashRouter(routes);
+
+// const App = () => {
+//   return (
+//     <div className='App'>
+//       <RouterProvider router={router} />
+//     </div>
+//   );
+// };
+
+// export default App;
